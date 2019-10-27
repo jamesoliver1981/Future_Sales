@@ -156,6 +156,17 @@ plt.plot(range(1,37), high_t.it_16790)
 high_t.loc[:,"it_16790"].head(20)
 
 
+# In[ ]:
+
+
+#this suggests there is not just a new product and it suddenly takes off... it buids for some 6 months and then builds and peters out
+#there are a number of different patterns - in terms of modelling, could look at
+    #when max was
+    #how large max was
+    #try to assess how it dropped off after and see if that's a predictor - 
+    #how many of these have a peak - need to define what a peak is
+
+
 # In[146]:
 
 
@@ -166,16 +177,36 @@ sales_perM.index=sales_perM.id
 sales_perM_t=sales_perM.drop(["item_id","id"],axis=1).transpose()
 #printcharts(sales_perM_t.loc[:,list(ordered_sales.id[500:509])])
 printcharts(sales_perM_t.loc[:,list(ordered_sales.id[500:509])])
+#see similar behaviours in the data as seen before hand...reasonable base, peak and then flatter...
 
 
-# In[70]:
+# In[185]:
 
 
-printcharts(high_t.iloc[:,9:18])
+print(train2[(train2.item_id==3732) & (train2.YM==201309)].head())
+
+train2[(train2.item_id==3732) & (train2.YM==201308)].head()
+#this shows that there is some change in the price over time
+#second also shows that there is some difference in price in different stores...
 
 
-# In[73]:
+# In[187]:
 
 
-printcharts(high_t.iloc[:,18:27])
+train2[(train2.item_id==3732) & (train2.YM==201308) & (train2.shop_id==37)]
+
+
+# In[188]:
+
+
+train2[(train2.item_id==3732) & (train2.YM==201308) & (train2.shop_id==41)]
+
+
+# In[ ]:
+
+
+#price changes over time therefore have an impact on the sales here -
+#its like there are initial sales and then bulk is purchased when the price drops a little
+#need to look at the price variety in a month too
+
 
