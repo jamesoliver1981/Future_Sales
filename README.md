@@ -1,7 +1,7 @@
 # Predicting Future Sales
 This is where I document the work I carried out on the Kaggle competition to predict a month of sales for Russian software company 1C.  There were just under 3 years of data provided, at the product and shop level on a daily basis, and with this I need to create a prediction for November for every product and shop combination.  This meant that I needed to generate just over 214k predictions.  
 This work involved **exploratory data analysis, data mungung, data cleaning, visualisation, building and tuning machine learning models.**  All of this was carried out in Python via Juypter Notebooks.
-The evaluation criteria was Root Mean Squared Error, and the winning entry was 0.79215, and my best entry to date is 1.13087 using XGBoost.
+The evaluation criteria was Root Mean Squared Error, and the winning entry was 0.79215, and my best entry to date is 1.13087 using RandomForest.
 
 The data and further information can be found [here](https://www.kaggle.com/c/competitive-data-science-predict-future-sales)
 
@@ -24,12 +24,36 @@ This shows that there are definitive peaks for most products.  However, this was
 This led me to trying to understand this behaviour so I could build appropriate features for the model later.  Logically I expected price to be a major driver here, so I spend quite some time trying to understand the price behaviour as it pertained to sales volume.  There is quite some detail in this [Jupyter Notebook](https://github.com/jamesoliver1981/Future_Sales/blob/master/jupyter/EDA_J2_04_Price_variation.ipynb) but the chart below shows a couple of key insights from this work.  
 This shows for one particularly product the price variation by days (since the start of the dataset).  The takeaways for me were:
 1.  The price only seemed to start varying on the days when the volume really picks up.  
-    *This suggests somekind of marketing campaign impacting performance for which we have no data.
+    * This suggests somekind of marketing campaign impacting performance for which we have no data.
 2.  The frequency of sales is uneven until the peak and then it occurs almost every day.  
-    *This suggests that volume was limited prior to the peak time and then availablity increased substantially.
+    * This suggests that volume was limited prior to the peak time and then availablity increased substantially.
 
 <img src="Images/sales_and_price_perday.png" alt="hi" class="inline"/> 
 
+# Feature Engineering
+
+Using the insight from the price and sales behaviour, I constructed numerous variables which might enhance prediction, each had a value over the past 10 months.  
+* Sales of that product in that shop
+* Total sales of that product (given the sudden uptick and gap behaviour seen)
+* Total number of shops where this was sold (given the lack of availability seen)
+* Total amounts (of all products) sold in this shop previously (thinking here was that perhaps this justified where new products are released)
+* Standard deviation of price of products (given that we saw how price really varied with sales)
+
+The code where this is all built up is [here](https://github.com/jamesoliver1981/Future_Sales/blob/master/Modelling/J2_Feature_Engineering_Model2_ExistProds_Newshops_01.ipynb)
+
+# Modelling
+
+Having built this dataset, I ran a RandomForest with 1000 trees and set the minimum leaf size to be 5 to ensure that the model didn't overfit.  Whilst this was intended to be a baseline model, it ended up beating subsequent xgboost attempts with cross validation and tuning (although the results were very close).  
+
+Whilst the key focus of this exercise is to generate an accurate model, in real life, we would be interested in understanding what the drivers of this were, so we could derive actions to improve performance.  Of course, this understanding would help us to determine better features to enhance the model.  Therefore below is the feature importance of the top 20 features from the RandomForest model.
+
+<img src="Images/RF_Feat_Imp_default.png" alt="hi" class="inline"/> 
+
+Given that this is a regression problem rather than classification, the importance is defined by impurity calculated via the variance rather than information gain.  In xgboost, the default is coverage which skews the intepretation, but here we are looking at impurity.  However, the default **can** be biased.  Therefore we check this by running a permutation feature importance.  This creates a baseline model and then scrambles a variable and measures the decrease in R^2 to measure the variable importance.  This is discussed further [here](https://explained.ai/rf-importance/index.html).  This generates this feature importance plot.
+
+<img src="Images/RF_Feat_Imp_default.png" alt="hi" class="inline"/> 
+
+Now we see that whilst the prior month is still important, its not the most important.  Interestingly other variables are now much more important such as how much was sold of that total product in the prior month, and the total amount that shop had sold upto 90 days ago.  
 
 #General plan here
 What do I want to show
