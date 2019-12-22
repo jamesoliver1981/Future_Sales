@@ -16,3 +16,5 @@ There are also
 # Initial Data Analysis
 Whilst there are over 22k products, initial data analysis found that there only 1654 products which are present in 31 or more of the 34 months in the dataset.  These sold an average of 5 per week, before I broke it further down into the 60 shops, yet represented 20% of total sales volume.  
 Given this low volume, I then looked at the variance of some of these products graphically to understand what was happening.
+
+<img src="Images/salesovertimev2.png" alt="hi" class="inline"/>
