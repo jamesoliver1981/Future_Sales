@@ -51,7 +51,7 @@ Whilst the key focus of this exercise is to generate an accurate model, in real 
 
 Given that this is a regression problem rather than classification, the importance is defined by impurity calculated via the variance rather than information gain.  In xgboost, the default is coverage which skews the intepretation, but here we are looking at impurity.  However, the default **can** be biased.  Therefore we check this by running a permutation feature importance.  This creates a baseline model and then scrambles a variable and measures the decrease in R^2 to measure the variable importance.  This is discussed further [here](https://explained.ai/rf-importance/index.html).  This generates this feature importance plot.
 
-<img src="Images/RF_Feat_Imp_default.png" alt="hi" class="inline"/> 
+<img src="Images/RF_Feat_Imp_Perm.png" alt="hi" class="inline"/> 
 
 Now we see that whilst the prior month is still important, its not the most important.  Interestingly other variables are now much more important such as how much was sold of that total product in the prior month, and the total amount that shop had sold upto 90 days ago.  
 
