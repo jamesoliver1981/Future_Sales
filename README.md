@@ -48,7 +48,7 @@ Having built this dataset, I ran a RandomForest with 1000 trees and set the mini
 I split the training data into train and test, 70/30, which resulted in 33k cases to predict.  Given the data I've shared above, it wasn't particularly surprising to see that 30k of these were actually zeros.  The remaining 3k of these had a mean of zero and a maximum of 26.  In effect, this is like modelling a scarce classification dataset.  The model will naturally predict zero's as that is most of what it sees.
 
 Below are 2 versions of the same confusion matrix, one in raw numbers, the other in proportion terms.
-<img src="Images/ConfusionMatrix.png" alt="hi" class="inline"/>       <img src="Images/ConfMatrix_percent.png" alt="hi" class="inline"/>  
+<img src="Images/ConfMatrix_combined.png" alt="hi" class="inline"/>        
 
 Here we can see that this actually did a fairly accurate job of classifying the zeroes, but didn't assume that all were zeros.
 
@@ -68,25 +68,4 @@ My original plan was to set a baseline model here and then improve upon this wit
 * XGBoost with tuning generated a score of 1.16152
 
 There is not a huge difference in these scores, and in real life I would have taken the tuned version as this went through cross validation and so would be expected to be the most stable of the scores.
-
-
-
-#General plan here
-What do I want to show
-    
-    Analytical ability - spot trends
-    Munging
-    Visualisation ability
-    Mutli model methods - rf & xgboost
-    Model stacking - new products
-    
-Story
-
-    Understanding target behaviour - often sold
-    Understanding price - note the gap on how often sold prior - use to base the model
-    Feature engineering - only talk about the 2nd one
-    RF
-    XG
-    XG Tuning
-    To add - those new products need a seperate model
     
