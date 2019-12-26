@@ -1,1 +1,3 @@
 theme: jekyll-theme-cayman
+title: Predicting Future Sales for 1C Software
+description: A writeup of my Kaggle entries including data munging, visualisation, and machine learning in Python via Jupytr Notebooks
