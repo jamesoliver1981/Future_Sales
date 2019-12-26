@@ -45,6 +45,12 @@ The code where this is all built up is [here](https://github.com/jamesoliver1981
 
 Having built this dataset, I ran a RandomForest with 1000 trees and set the minimum leaf size to be 5 to ensure that the model didn't overfit.  Whilst this was intended to be a baseline model, it ended up beating subsequent xgboost attempts with cross validation and tuning (although the results were very close).  
 
+I split the training data into train and test, 70/30, which resulted in 33k cases to predict.  Given the data I've shared above, it wasn't particularly surprising to see that 30k of these were actually zeros.  The remaining 3k of these had a mean of zero and a maximum of 26.  In effect, this is like modelling a scarce classification dataset.  The model will naturally predict zero's as that is most of what it sees.
+
+Below are 2 versions of the same confusion matrix, one in raw numbers, the other in proportion terms.
+<img src="Images/ConfusionMatrix.png" alt="hi" class="inline"/> <img src="Images/ConfMatrix_percent.png" alt="hi" class="inline"/> 
+
+
 Whilst the key focus of this exercise is to generate an accurate model, in real life, we would be interested in understanding what the drivers of this were, so we could derive actions to improve performance.  Of course, this understanding would help us to determine better features to enhance the model.  Therefore below is the feature importance of the top 20 features from the RandomForest model.
 
 <img src="Images/RF_Feat_Imp_default.png" alt="hi" class="inline"/> 
@@ -53,7 +59,14 @@ Given that this is a regression problem rather than classification, the importan
 
 <img src="Images/RF_Feat_Imp_Perm.png" alt="hi" class="inline"/> 
 
-Now we see that whilst the prior month is still important, its not the most important.  Interestingly other variables are now much more important such as how much was sold of that total product in the prior month, and the total amount that shop had sold upto 90 days ago.  
+Now we see that whilst the prior month is still important, its not the most important.  Interestingly other variables are now much more important such as how much was sold of that total product in the prior month, and the total amount that shop had sold upto 90 days ago.  Logically this makes sense as whilst the volume sold is likely to be a function of the prior month, new products being added to shops would always show as zero based on this criteria alone.
+
+My original plan was to set a baseline model here and then improve upon this with an xgboost.  The attempt can be seen [here](https://github.com/jamesoliver1981/Future_Sales/blob/master/Modelling/J2_Model2_Tuning.ipynb), however the result was marginally worse.  
+    * The Random Forest generated a RMSE of 1.13087
+    * XGBoost without tuning generated a RMSE 1.14409
+    * XGBoost with tuning generated a score of 1.16152
+
+There is not a huge difference in these scores, and in real life I would have taken the tuned version as this went through cross validation and so would be the most stable of the scores.
 
 #General plan here
 What do I want to show
